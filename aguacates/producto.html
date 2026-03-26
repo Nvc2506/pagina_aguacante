@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Gold | Organic Luxury</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-deep: #020504;
+            --oro-bright: #FFD700;
+            --oro-dark: #c5a059;
+            --accent-green: #1b3022;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-deep);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .section-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 5%;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1300px;
+            align-items: center;
+        }
+
+        .phrase-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--oro-dark);
+            font-style: italic;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        /* --- STACK DE PRODUCTOS CON SCROLL --- */
+        .cards-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+            max-height: 520px; /* Altura máxima para permitir scroll si hay muchos productos */
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        /* Personalización del Scrollbar */
+        .cards-stack::-webkit-scrollbar { width: 3px; }
+        .cards-stack::-webkit-scrollbar-thumb { background: var(--oro-dark); }
+
+        .slate-card {
+            position: relative;
+            background: linear-gradient(145deg, #050a07, #020504);
+            border-radius: 15px;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+        }
+
+        /* Indicador de Oro Lateral */
+        .slate-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0;
+            background: var(--oro-bright);
+            transition: height 0.4s ease;
+            box-shadow: 0 0 15px var(--oro-bright);
+        }
+
+        .slate-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(197, 160, 89, 0.2);
+            background: linear-gradient(145deg, #0a130d, #020504);
+        }
+
+        .slate-card.active {
+            border-color: var(--oro-dark);
+            background: linear-gradient(145deg, #0e1a12, #020504);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .slate-card.active::before {
+            height: 60%;
+        }
+
+        .info-group h4 { margin: 0; font-size: 1.1rem; letter-spacing: 1px; font-weight: 600; }
+        .info-group p { margin: 5px 0 0; font-size: 0.75rem; color: var(--oro-dark); text-transform: uppercase; letter-spacing: 2px; }
+
+        .price-group { text-align: right; }
+        .price-group span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--oro-bright);
+            font-weight: 700;
+        }
+
+        /* --- SELECTOR DE CANTIDAD (TU IMAGEN) --- */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-left: 10px;
+        }
+
+        .qty-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--accent-green);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .qty-btn:hover { background-color: #2a4a35; transform: scale(1.05); }
+        .qty-btn:active { transform: scale(0.95); }
+
+        .qty-number { font-size: 1.5rem; font-weight: 600; min-width: 30px; text-align: center; }
+        .qty-label { color: #88948d; font-size: 1rem; }
+
+        /* --- BOTÓN Y HERO --- */
+        .btn-luxury {
+            width: 100%;
+            padding: 22px;
+            border-radius: 50px;
+            background: transparent;
+            border: 1px solid var(--oro-dark);
+            color: var(--oro-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .btn-luxury:hover { background: var(--oro-dark); color: #000; box-shadow: 0 10px 30px rgba(197, 160, 89, 0.3); }
+
+        .product-hero {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #main-img {
+            width: 100%;
+            max-width: 520px;
+            filter: drop-shadow(0 0 50px rgba(197, 160, 89, 0.15));
+            transition: opacity 0.3s ease, transform 0.5s ease;
+        }
+
+        @media (max-width: 1000px) {
+            .layout-grid { grid-template-columns: 1fr; text-align: center; }
+            .quantity-selector { justify-content: center; }
+            .product-hero { order: -1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="section-wrapper">
+    <div class="layout-grid">
+        
+        <div class="content-side">
+            <div class="phrase-box">
+                <h2>"Del corazón de Colombia a las mesas de Europa."</h2>
+            </div>
+
+            <div class="cards-stack" id="product-container"></div>
+
+            <div class="quantity-selector">
+                <button class="qty-btn" onclick="updateQty(-1)"><i class="fas fa-minus"></i></button>
+                <span class="qty-number" id="qty-val">1</span>
+                <button class="qty-btn" onclick="updateQty(1)"><i class="fas fa-plus"></i></button>
+                <span class="qty-label">cajas</span>
+            </div>
+
+            <button class="btn-luxury">Solicitar Reserva Especial</button>
+        </div>
+
+        <div class="product-hero">
+            <img id="main-img" src="" alt="Producto Premium">
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // 1. Lista de productos ACTUALIZADA (añadida la opción normal al principio)
+    const products = [
+        { 
+            id: 1, 
+            name: "Cosecha Diaria", // La opción normal/estándar
+            desc: "Aguacate Normal · Calidad Estándar", 
+            price: "$12", 
+            img: "imagenes/aguacate_normal.png" // Necesitas esta imagen
+        },
+        { 
+            id: 2, 
+            name: "Gourmet Selection", 
+            desc: "4 KG · 8 - 10 Unidades Premium", 
+            price: "$18", 
+            img: "imagenes.png" 
+        },
+        { 
+            id: 3, 
+            name: "Master Reserve", 
+            desc: "10 KG · 20 - 25 Unidades Extra", 
+            price: "$38", 
+            img: "imagenes/aguacate_2.png" 
+        },
+        { 
+            id: 4, 
+            name: "Grand Heritage", 
+            desc: "20 KG · 40 - 50 Unidades Jumbo", 
+            price: "$70", 
+            img: "imagenes/aguacate_3.png" 
+        }
+    ];
+
+    let currentQty = 1;
+
+    // 2. Función para renderizar y dejar uno seleccionado por defecto
+    function init() {
+        const container = document.getElementById('product-container');
+        const mainImg = document.getElementById('main-img');
+
+        // Generamos el HTML (la primera opción index 0 está activa por defecto)
+        container.innerHTML = products.map((p, index) => `
+            <div class="slate-card ${index === 0 ? 'active' : ''}" 
+                 id="card-${p.id}" 
+                 onclick="selectProduct(${p.id}, '${p.img}')">
+                <div class="info-group">
+                    <h4>${p.name}</h4>
+                    <p>${p.desc}</p>
+                </div>
+                <div class="price-group"><span>${p.price}</span></div>
+            </div>
+        `).join('');
+
+        // Seteamos la imagen del primero por defecto (la normal)
+        mainImg.src = products[0].img;
+    }
+
+    // 3. Función al hacer clic para cambiar de producto e imagen
+    function selectProduct(id, imgSrc) {
+        // Quitar clase active de todas
+        document.querySelectorAll('.slate-card').forEach(c => c.classList.remove('active'));
+        // Poner clase active a la seleccionada
+        document.getElementById(`card-${id}`).classList.add('active');
+        
+        // Cambiar imagen con un efecto visual suave (fade + escala)
+        const imgEl = document.getElementById('main-img');
+        imgEl.style.opacity = '0.1';
+        imgEl.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            imgEl.src = imgSrc;
+            imgEl.style.opacity = '1';
+            imgEl.style.transform = 'scale(1)';
+        }, 250);
+
+        // Reset cantidad a 1
+        currentQty = 1;
+        document.getElementById('qty-val').innerText = currentQty;
+    }
+
+    // 4. Lógica de cantidad
+    function updateQty(n) {
+        currentQty += n;
+        if (currentQty < 1) currentQty = 1; // Mínimo 1 caja
+        document.getElementById('qty-val').innerText = currentQty;
+    }
+
+    // Inicializar la tienda
+    init();
+</script>
+
+</body>
+</html>

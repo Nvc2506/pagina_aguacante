@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiénes Somos - Green Gold Colombia</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --v-principal: #1b3022;
+            --v-oscuro: #050a07;
+            --d-oro: #c5a059;
+            --fuente: 'Playfair Display', serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--fuente);
+            background-color: var(--v-oscuro);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- MINI HEADER --- */
+        .mini-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 10, 7, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--d-oro);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        /* --- FONDO Y OVERLAY --- */
+        .qs-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url('TU_IMAGEN_COLOMBIA_FONDO.png'); /* Reemplazar con tu ruta */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .qs-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(5, 10, 7, 0.97) 0%, rgba(5, 10, 7, 0.90) 100%);
+            z-index: -1;
+        }
+
+        /* --- SECCIÓN PRINCIPAL --- */
+        #quienes-somos {
+            padding: 40px 0 80px 0;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .qs-container {
+            max-width: 1000px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        .qs-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .qs-header h2 {
+            font-size: 2.2rem;
+            color: var(--d-oro);
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .qs-subtitle {
+            font-size: 1.1rem;
+            color: var(--d-oro);
+            font-style: italic;
+            margin-bottom: 20px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .qs-paragraph {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- DISEÑO DE CONTENIDO (Misión/Visión) --- */
+        .content-layout {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .goals-column {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-side-column {
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 100px;
+        }
+
+        .img-sutil-side {
+            max-width: 70%;
+            height: auto;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.1));
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- TARJETAS --- */
+        .goal-card {
+            padding: 25px 30px;
+            background: rgba(10, 20, 15, 0.5);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .goal-card::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 0;
+            width: 3px;
+            height: 70%;
+            background: var(--d-oro);
+            opacity: 0.5;
+        }
+
+        .goal-card h3 {
+            font-size: 1.4rem;
+            color: var(--d-oro);
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .goal-card p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* --- PILARES --- */
+        .pillars-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .pillar-item {
+            background: rgba(10, 20, 15, 0.4);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            padding: 25px 20px;
+            text-align: center;
+            border-radius: 15px;
+            transition: 0.4s ease;
+        }
+
+        .pillar-item i {
+            font-size: 1.8rem;
+            color: var(--d-oro);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .pillar-item h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: var(--d-oro);
+        }
+
+        .pillar-item p {
+            font-size: 0.85rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pillar-item:hover {
+            border-color: var(--d-oro);
+            background: rgba(197, 160, 89, 0.05);
+            transform: translateY(-5px);
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 850px) {
+            .content-layout { flex-direction: column; }
+            .image-side-column { order: -1; margin: 0 auto 20px auto; position: static; }
+            .img-sutil-side { max-width: 150px; }
+            .pillars-row { grid-template-columns: 1fr; }
+            .qs-header h2 { font-size: 1.8rem; letter-spacing: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="mini-header">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Volver al Menú
+        </a>
+        <div style="text-align: right;">
+            <span style="color: var(--d-oro); letter-spacing: 2px; font-size: 0.65rem; font-weight: bold;">PREMIUM EXPORT</span>
+        </div>
+    </header>
+
+    <div class="qs-background"></div> 
+    <div class="qs-overlay"></div> 
+
+    <section id="quienes-somos">
+        <div class="qs-container">
+            
+            <div class="qs-header">
+                <h2>Excelencia Exportadora</h2>
+                <span class="qs-subtitle">Del Campo al Mundo</span>
+                <p class="qs-paragraph">
+                    Exportamos una experiencia sensorial única. Mediante procesos rigurosos, aseguramos que cada fruto mantenga su frescura y calidad premium en cada destino internacional.
+                </p>
+            </div>
+
+            <div class="content-layout">
+                <div class="goals-column">
+                    <div class="goal-card">
+                        <h3><i class="fas fa-bullseye"></i> Misión</h3>
+                        <p>Llevar la esencia de nuestra tierra a los mercados globales más exigentes, garantizando calidad superior y procesos sostenibles que conectan el campo con el mundo.</p>
+                    </div>
+
+                    <div class="goal-card">
+                        <h3><i class="fas fa-eye"></i> Visión</h3>
+                        <p>Para el 2030, ser el estándar de oro en exportación agro premium de Colombia, reconocidos por nuestra innovación, sostenibilidad y trazabilidad total.</p>
+                    </div>
+                </div>
+
+                <div class="image-side-column">
+                    <img src="imagenes somos/hoja_agua.png" alt="Green Gold Leaf" class="img-sutil-side">
+                </div>
+            </div>
+
+            <div class="pillars-row">
+                <div class="pillar-item">
+                    <i class="fas fa-leaf"></i>
+                    <h4>Sostenibilidad</h4>
+                    <p>Compromiso con el medio ambiente y prácticas agrícolas responsables.</p>
+                </div>
+                <div class="pillar-item">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Confianza</h4>
+                    <p>Aliados transparentes que aseguran volumen y consistencia premium.</p>
+                </div>
+                <div class="pillar-item">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h4>Logística</h4>
+                    <p>Cadena de frío avanzada para garantizar frescura en cualquier puerto.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

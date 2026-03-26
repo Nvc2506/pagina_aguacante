@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Gold Colombia | Exportación Premium</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --v-principal: #1b3022;
+            --v-oscuro: #050a07;
+            --v-menu-drawer-bg: #030805;
+            --d-oro: #c5a059;
+            --amarillo-oro: #FFD700;
+            --amarillo-pastel: #FDFD96;
+            --fuente-unificada: 'Playfair Display', serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--fuente-unificada);
+            background-color: #0a110d;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- HOJAS DECORATIVAS EN ESQUINAS --- */
+        .hoja-esquina {
+            position: fixed;
+            width: 150px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .h-top-left { top: 0; left: 0; }
+        .h-top-right { top: 0; right: 0; transform: scaleX(-1); }
+        .h-bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
+        .h-bottom-right { bottom: 0; right: 0; transform: scale(-1); }
+
+        /* --- HEADER --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 85px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4%;
+            background: rgba(10, 17, 13, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 3000;
+            box-sizing: border-box;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(to right, transparent, var(--d-oro), var(--amarillo-oro), var(--d-oro), transparent);
+            border-image-slice: 1;
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .logo-header { width: 38px; height: auto; filter: drop-shadow(0 0 5px var(--d-oro)); }
+        
+        .brand-text h1 {
+            font-size: 0.65rem;
+            line-height: 1.2;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        /* --- MENÚ HORIZONTAL --- */
+        .header-center { display: flex; justify-content: center; flex: 2; }
+
+        .pixel-nav-container {
+            display: flex;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 3px 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+        }
+
+        .pixel-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .pixel-link i { font-size: 0.75rem; color: var(--d-oro); opacity: 0.8; }
+        .pixel-link:hover { color: #fff; background: rgba(197, 160, 89, 0.1); border-radius: 30px; }
+
+        /* --- IDIOMAS --- */
+        .header-right { display: flex; justify-content: flex-end; align-items: center; flex: 1; }
+        .language-picker { display: flex; gap: 10px; padding-left: 15px; border-left: 1px solid rgba(197, 160, 89, 0.3); }
+        .flag-btn { 
+            width: 28px; height: 18px; cursor: pointer; border-radius: 3px; 
+            border: 1px solid rgba(197, 160, 89, 0.2); object-fit: cover;
+            transition: 0.3s;
+        }
+        .flag-btn:hover { transform: scale(1.1); filter: brightness(1.2); box-shadow: 0 0 8px var(--d-oro); }
+
+        /* --- CARRITO --- */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(10, 17, 13, 0.9);
+            border: 2px solid var(--d-oro);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 4000;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px; right: -5px;
+            background: var(--d-oro);
+            color: #000;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 0.75rem; font-weight: 700;
+        }
+
+        /* --- MENÚ VERTICAL (DRAWER) --- */
+        .vertical-drawer {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 280px;
+            height: 100vh;
+            background: var(--v-menu-drawer-bg);
+            z-index: 4500;
+            transition: 0.5s;
+            border-right: 1px solid var(--d-oro);
+        }
+        .vertical-drawer.active { left: 0; }
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 25px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.05);
+        }
+        .drawer-link i { color: var(--d-oro); width: 20px; text-align: center; }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 4400;
+            backdrop-filter: blur(5px);
+        }
+        .overlay.active { display: block; }
+
+        /* --- SECCIÓN INICIO --- */
+        #inicio {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 85px;
+            position: relative;
+            background: radial-gradient(circle at center, #0f1a14 0%, #050a07 100%);
+        }
+
+        .main-title { font-size: 7rem; color: var(--amarillo-oro); margin: 0; font-weight: 700; text-transform: uppercase; line-height: 0.9; z-index: 10; }
+        .slogan-text { font-size: 1.6rem; font-style: italic; color: rgba(255, 255, 255, 0.6); display: block; margin-top: 15px; z-index: 10; }
+        .hero-img { width: 450px; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8)); z-index: 10; }
+
+        .bg-leaf { position: absolute; bottom: 0; width: 350px; opacity: 0.35; z-index: 1; pointer-events: none; }
+        .leaf-left { left: 0; transform: scaleX(-1); }
+        .leaf-right { right: 0; }
+
+        /* --- BOTÓN FLOTANTE (IZQUIERDA) --- */
+.btn-help-gold {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: #050a07; /* Negro premium */
+    border: 1px solid #c5a059; /* Dorado */
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 5000;
+    cursor: pointer;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-help-gold i {
+    color: #25d366; /* Verde WhatsApp solo en el ícono */
+    font-size: 1.2rem;
+}
+
+.btn-help-gold:hover {
+    background: #c5a059; /* Cambia a dorado al pasar el mouse */
+    color: #050a07;
+    transform: translateY(-5px);
+}
+
+.btn-help-gold:hover i {
+    color: #050a07;
+}
+
+/* --- CUADRO DE MENSAJE --- */
+.help-card-gold {
+    position: fixed;
+    bottom: 95px;
+    left: 30px;
+    width: 260px;
+    background: rgba(5, 10, 7, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid #c5a059;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 5001;
+    display: none; /* Se activa con JS */
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    animation: slideInGold 0.4s ease-out;
+}
+
+@keyframes slideInGold {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.help-card-gold h4 {
+    margin: 0;
+    color: #c5a059;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.help-card-gold p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+}
+
+/* --- BOTÓN DENTRO DEL CUADRO --- */
+.wa-btn-gold {
+    background: #25d366;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.wa-btn-gold:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+}
+    </style>
+</head>
+
+<body>
+
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <header class="main-header">
+        <div class="header-left">
+            <button onclick="toggleMenu()" style="background:none; border:none; color:var(--d-oro); font-size:1.5rem; cursor:pointer;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <img src="/imagenes/marrron.png" class="logo-header">
+            <div class="brand-text">
+                <h1 style="color:#fff;">Green Gold</h1>
+                <h1 style="color:var(--d-oro);">Colombia</h1>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <nav class="pixel-nav-container">
+                <a href="index.html" class="pixel-link"><i class="fas fa-home"></i> Inicio</a>
+                <a href="nosotros.html" class="pixel-link"><i class="fas fa-seedling"></i> Nosotros</a>
+                <a href="producto.html" class="pixel-link"><i class="fas fa-lemon"></i> Producto</a>
+                <a href="exportacion.html" class="pixel-link"><i class="fas fa-box"></i> Exportación</a>
+                <a href="mercado.html" class="pixel-link"><i class="fas fa-chart-line"></i> Mercado</a>
+                <a href="contacto.html" class="pixel-link"><i class="fas fa-gift"></i> Contacto</a>
+            </nav>
+        </div>
+
+        <div class="header-right">
+            <div class="language-picker">
+                <img src="/imagenes/ALEMANIA.png" class="flag-btn" title="Alemán">
+                <img src="/imagenes/ESPAÑOL.png" class="flag-btn" title="Español">
+                <img src="/imagenes/INGLES.png" class="flag-btn" title="Inglés">
+                <img src="/imagenes/CHINO.png" class="flag-btn" title="Chino">
+            </div>
+        </div>
+    </header>
+
+    <div class="floating-cart">
+        <i class="fas fa-shopping-cart" style="color: var(--d-oro); font-size: 1.5rem;"></i>
+        <div class="cart-badge">3</div>
+    </div>
+
+    <nav class="vertical-drawer" id="sideNav">
+        <div style="padding: 35px; text-align: center; border-bottom: 1px solid rgba(197, 160, 89, 0.2);">
+            <h2 style="font-size: 0.9rem; color: var(--d-oro); letter-spacing: 2px; text-transform: uppercase;">Menú</h2>
+        </div>
+        <div class="drawer-menu-list">
+            <a href="index.html" class="drawer-link"><i class="fas fa-house-chimney"></i> Inicio</a>
+            <a href="quienes_somos.html" class="drawer-link"><i class="fas fa-leaf"></i> Quiénes Somos</a>
+            <a href="producto.html" class="drawer-link"><i class="fas fa-lemon"></i> Producto</a>
+            <a href="exportacion.html" class="drawer-link"><i class="fas fa-earth-americas"></i> Exportación</a>
+            <a href="mercado.html" class="drawer-link"><i class="fas fa-chart-line"></i> Mercado</a>
+            <a href="contacto.html" class="drawer-link"><i class="fas fa-paper-plane"></i> Contacto</a>
+        </div>
+    </nav>
+
+    <section id="inicio">
+        <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1100px; width: 90%; z-index: 10;">
+            <div style="flex: 1.2;">
+                <h2 class="main-title">Green Gold</h2>
+                <span class="slogan-text">frescura de exportación del corazón de nuestra tierra al mundo</span>
+            </div>
+            <img src="/imagenes/ojos_verdes.png" class="hero-img">
+        </div>
+        <img src="/imagenes/hoja_ama (1).png" class="bg-leaf leaf-left">
+        <img src="/imagenes/hoja_ama (1).png" class="bg-leaf leaf-right">
+    </section>
+
+     <div id="helpCardGold" class="help-card-gold">
+    <h4>Asistencia Gold</h4>
+    <p>¿Dudas sobre exportación o pedidos? Habla con un experto.</p>
+    <a href="https://wa.me/573000000000" target="_blank" class="wa-btn-gold">
+        <i class="fab fa-whatsapp"></i> WhatsApp Premium
+    </a>
+</div>
+
+<div class="btn-help-gold" onclick="toggleHelpGold()">
+    <i class="fab fa-whatsapp"></i>
+    <span>¿Necesitas ayuda?</span>
+</div>
+    <script>
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+    function toggleHelpGold() {
+    const card = document.getElementById('helpCardGold');
+    // Si está oculto, lo pone en flex, si no, lo oculta
+    if (card.style.display === "flex") {
+        card.style.display = "none";
+    } else {
+        card.style.display = "flex";
+    }
+}
+    </script>
+</body>
+</html>
